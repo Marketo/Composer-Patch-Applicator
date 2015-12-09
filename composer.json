@@ -1,0 +1,15 @@
+{
+    "name": "marketo/patch-applicator",
+    "description": "A Composer post-update/install-cmd script to automatically apply patches",
+    "authors": [
+        {
+            "name": "Marcus Nyeholt",
+            "email": "marcus@silverstripe.com.au"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Marketo\\": "src/"
+        }
+    }
+}
