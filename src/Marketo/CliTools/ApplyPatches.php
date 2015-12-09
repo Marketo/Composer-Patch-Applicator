@@ -22,8 +22,9 @@ class ApplyPatches {
 		
 		if (count($patches)) {
 			foreach ($patches as $patchFile) {
-				$event->getIO()->writeError('<info>Applying patches from $patchFile </info>', false);
-				$exec = "patch -r - -p0 --no-backup-if-mismatch -i " . escapeshellarg($patchFile);
+				$file = escapeshellarg($patchFile);
+				$event->getIO()->writeError('<info>Applying patches from ' . $file . ' </info>', false);
+				$exec = "patch -r - -p0 --no-backup-if-mismatch -i " . $file;
 				$output = `$exec`;
 				$event->getIO()->writeError('<info>' . $output . '</info>', false);
 			}
