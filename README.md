@@ -14,7 +14,7 @@ can be altered by setting the `marketo_patch_dir` environment variable.
 
 ```
 "scripts": {
-     "post-update-cmd": "Marketo\\CliTools\\ApplyPatches::run()",
-     "post-install-cmd": "Marketo\\CliTools\\ApplyPatches::run()"
+     "post-update-cmd": "Marketo\\CliTools\\ApplyPatches::run",
+     "post-install-cmd": "Marketo\\CliTools\\ApplyPatches::run"
 }
 ```
