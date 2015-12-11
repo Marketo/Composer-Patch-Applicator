@@ -8,7 +8,7 @@ can be altered by setting the `marketo_patch_dir` environment variable.
 
 ### Add it to your project with:
 
-`composer require marketo/patch-applicator`
+`composer require marketo/composer-patch-applicator`
 
 ### Add the following to your composer.json
 
