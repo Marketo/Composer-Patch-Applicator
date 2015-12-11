@@ -1,19 +1,27 @@
 {
-    "name": "marketo/patch-applicator",
-    "description": "A Composer post-update/install-cmd script to automatically apply patches",
-    "authors": [
-        {
-            "name": "Marcus Nyeholt",
-            "email": "marcus@silverstripe.com.au"
-        }
-    ],
-	"support": {
-		"issues": "https://github.com/Marketo/Composer-PatchApplicator/issues"
-	},
-	"license" : "BSD-3-Clause",
-    "autoload": {
-        "psr-0": {
-            "Marketo\\": "src/"
-        }
+  "name": "marketo/patch-applicator",
+  "description": "A Composer post-update/install-cmd script to automatically apply patches",
+  
+  "authors":
+  [
+    {
+      "name": "Marcus Nyeholt",
+      "email": "marcus@silverstripe.com.au"
     }
+  ],
+  
+  "support":
+  {
+    "issues": "https://github.com/Marketo/Composer-PatchApplicator/issues"
+  },
+  
+  "license" : "BSD-3-Clause",
+  
+  "autoload":
+  {
+    "psr-0":
+    {
+    "Marketo\\": "src/"
+    }
+  }
 }
