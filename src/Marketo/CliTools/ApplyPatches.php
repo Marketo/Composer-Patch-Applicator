@@ -23,10 +23,8 @@ class ApplyPatches {
 		if (count($patches)) {
 			foreach ($patches as $patchFile) {
 				$file = escapeshellarg($patchFile);
-				$event->getIO()->writeError('<info>Applying patches from ' . $file . ' </info>', false);
-				$exec = "patch -r - -p0 --no-backup-if-mismatch -i " . $file;
-				$output = `$exec`;
-				$event->getIO()->writeError('<info>' . $output . '</info>', false);
+				$event->getIO()->writeError("<info>Applying patches from $file </info>", TRUE);
+				passthru("patch -r - -p0 --no-backup-if-mismatch -i " . $file);
 			}
 		}
 	}
