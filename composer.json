@@ -1,7 +1,7 @@
 {
   "name": "marketo/composer-patch-applicator",
   "description": "A Composer post-update/install-cmd script to automatically apply patches",
-  
+
   "authors":
   [
     {
@@ -9,19 +9,29 @@
       "email": "marcus@silverstripe.com.au"
     }
   ],
-  
+
   "support":
   {
     "issues": "https://github.com/Marketo/Composer-PatchApplicator/issues"
   },
-  
+
   "license" : "BSD-3-Clause",
-  
+
   "autoload":
   {
     "psr-0":
     {
-    "Marketo\\": "src/"
+      "Marketo\\": "src/"
     }
+  },
+
+  "extra":
+  {
+    "class": "Marketo\\CliTools\\ApplyPatches"
+  },
+  
+  "require":
+  {
+    "composer-plugin-api": "~1.1"
   }
 }
