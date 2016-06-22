@@ -1,7 +1,7 @@
 {
   "name": "marketo/composer-patch-applicator",
   "description": "A Composer post-update/install-cmd script to automatically apply patches",
-
+  "type" : "composer-plugin",
   "authors":
   [
     {
