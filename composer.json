@@ -27,7 +27,10 @@
 
   "extra":
   {
-    "class": "Marketo\\CliTools\\ApplyPatches"
+    "class": "Marketo\\CliTools\\ApplyPatches",
+	"branch-alias": {
+	  "dev-master": "2.0.x-dev"
+	}
   },
   
   "require":
