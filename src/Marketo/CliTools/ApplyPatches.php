@@ -1,4 +1,5 @@
 <?php
+
 /* All code covered by the BSD license located at http://silverstripe.org/bsd-license/ */
 
 namespace Marketo\CliTools;
@@ -18,83 +19,95 @@ use Composer\Util\ProcessExecutor;
  *
  * @author Marcus Nyeholt <marcus@silverstripe.com.au>
  */
-class ApplyPatches implements PluginInterface, EventSubscriberInterface {
+class ApplyPatches implements PluginInterface, EventSubscriberInterface
+{
 
-	/**
-	 * @var string $patchDir
-	 */
-	protected $patchDir = "mysite/patches";
+    /**
+     * @var string $patchDir
+     */
+    protected $patchDir = "mysite/patches";
 
-	/**
-	 * @var Composer $composer
-	 */
-	protected $composer;
+    /**
+     * @var Composer $composer
+     */
+    protected $composer;
 
-	/**
-	 * @var IOInterface $io
-	 */
-	protected $io;
+    /**
+     * @var IOInterface $io
+     */
+    protected $io;
 
-	/**
-   * @var ProcessExecutor $executor
-   */
-  protected $executor;
+    /**
+     * @var ProcessExecutor $executor
+     */
+    protected $executor;
 
-  /**
-	 * Initialize the plugin.
-	 */
-  public function activate(Composer $composer, IOInterface $io) {
-		$this->composer = $composer;
-		$this->io = $io;
-		$this->executor = new ProcessExecutor($this->io);
+    /**
+     * Initialize the plugin.
+     */
+    public function activate(Composer $composer, IOInterface $io)
+    {
+        $this->composer = $composer;
+        $this->io = $io;
+        $this->executor = new ProcessExecutor($this->io);
 
-		$this->configure();
-	}
+        $this->configure();
+    }
 
-	public static function getSubscribedEvents() {
-		return array(
-			ScriptEvents::PRE_INSTALL_CMD => "applyPatches",
-			ScriptEvents::PRE_UPDATE_CMD => "applyPatches",
-		);
-	}
+    public static function getSubscribedEvents()
+    {
+        return array(
+            ScriptEvents::PRE_INSTALL_CMD => "applyPatches",
+            ScriptEvents::PRE_UPDATE_CMD => "applyPatches",
+        );
+    }
 
-	public function applyPatches() {
-    if (!directory_exists($this->patchDir)) {
-			return;
-		}
+    public function applyPatches()
+    {
+        if (!directory_exists($this->patchDir))
+        {
+            return;
+        }
 
-		$patches = glob($this->patchDir . '/*.patch');
+        $patches = glob($this->patchDir . '/*.patch');
 
-		if (count($patches)) {
-			foreach ($patches as $patchFile) {
-				$file = excapeshellarg($patchFile);
-				$io = $this->io;
-				$io->write("<comment>Applying patches from $file.</comment>");
-				$this->executor->execute("patch -r - -p0 --no-backup-if-mismatch -i " . $file, function ($type, $data) use ($io) {
-					if ($type == Process::ERR) {
-            $io->write('<error>' . $data . '</error>');
-				  }
-				});
-			}
-		}
-	}
+        if (count($patches))
+        {
+            foreach ($patches as $patchFile)
+            {
+                $file = excapeshellarg($patchFile);
+                $io = $this->io;
+                $io->write("<comment>Applying patches from $file.</comment>");
+                $this->executor->execute("patch -r - -p0 --no-backup-if-mismatch -i " . $file, function ($type, $data) use ($io)
+                {
+                    if ($type == Process::ERR)
+                    {
+                        $io->write('<error>' . $data . '</error>');
+                    }
+                });
+            }
+        }
+    }
 
-  /**
-	 * Override the default patch dir from composer.json or env if needed.
-	 */
-	public function configure() {
-		// Set the patch dir from 'extra' if present.
-		$extra = $this->composer->getExtra();
-		if (isset($extra['marketo_patch_dir'])) {
-			$this->patchDir = $extra['marketo_patch_dir'];
-		}
+    /**
+     * Override the default patch dir from composer.json or env if needed.
+     */
+    public function configure()
+    {
+        // Set the patch dir from 'extra' if present.
+        $extra = $this->composer->getExtra();
+        if (isset($extra['marketo_patch_dir']))
+        {
+            $this->patchDir = $extra['marketo_patch_dir'];
+        }
 
-    // Set the patch dir from the environment if present.
-		if (getenv('marketo_patch_dir') !== FALSE) {
-			$this->patchDir = $extra['marketo_patch_dir'];
-		}
+        // Set the patch dir from the environment if present.
+        if (getenv('marketo_patch_dir') !== FALSE)
+        {
+            $this->patchDir = $extra['marketo_patch_dir'];
+        }
 
-		// Expand the path.
-		$this->patchDir = getcwd() . DIRECTORY_SEPARATOR . $this->patchDir;
-	}
+        // Expand the path.
+        $this->patchDir = getcwd() . DIRECTORY_SEPARATOR . $this->patchDir;
+    }
 }
