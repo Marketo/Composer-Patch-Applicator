@@ -95,7 +95,7 @@ class ApplyPatches implements PluginInterface, EventSubscriberInterface
     public function configure()
     {
         // Set the patch dir from 'extra' if present.
-        $extra = $this->composer->getConfig()->getExtra();
+        $extra = $this->composer->getPackage()->getExtra();
         if (isset($extra['marketo_patch_dir']))
         {
             $this->patchDir = $extra['marketo_patch_dir'];
