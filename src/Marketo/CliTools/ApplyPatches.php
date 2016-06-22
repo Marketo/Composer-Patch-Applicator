@@ -4,7 +4,7 @@
 
 namespace Marketo\CliTools;
 
-use Composer\Script\Event;
+use Symfony\Component\Process\Process;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Composer;
@@ -64,7 +64,7 @@ class ApplyPatches implements PluginInterface, EventSubscriberInterface
 
     public function applyPatches()
     {
-        if (!directory_exists($this->patchDir))
+        if (!is_dir($this->patchDir) && is_dir($this->patchDir))
         {
             return;
         }
@@ -73,18 +73,23 @@ class ApplyPatches implements PluginInterface, EventSubscriberInterface
 
         if (count($patches))
         {
+            $io = $this->io;
+            $handler = function ($type, $data) use ($io)
+            {
+                if ($type == Process::ERR)
+                {
+                    $io->write('<error>' . $data . '</error>');
+                } else {
+                    $io->write('<info>' . $data . '</info>');
+                }
+            };
+
             foreach ($patches as $patchFile)
             {
-                $file = excapeshellarg($patchFile);
-                $io = $this->io;
+                $file = escapeshellarg($patchFile);
+                
                 $io->write("<comment>Applying patches from $file.</comment>");
-                $this->executor->execute("patch -r - -p0 --no-backup-if-mismatch -i " . $file, function ($type, $data) use ($io)
-                {
-                    if ($type == Process::ERR)
-                    {
-                        $io->write('<error>' . $data . '</error>');
-                    }
-                });
+                $this->executor->execute("patch -r - -p0 --no-backup-if-mismatch -i " . $file, $handler);
             }
         }
     }
