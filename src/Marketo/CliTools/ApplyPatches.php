@@ -57,8 +57,8 @@ class ApplyPatches implements PluginInterface, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            \Composer\Script\ScriptEvents::PRE_INSTALL_CMD => "applyPatches",
-            \Composer\Script\ScriptEvents::PRE_UPDATE_CMD => "applyPatches",
+            \Composer\Script\ScriptEvents::POST_INSTALL_CMD => "applyPatches",
+            \Composer\Script\ScriptEvents::POST_UPDATE_CMD => "applyPatches",
         );
     }
 
